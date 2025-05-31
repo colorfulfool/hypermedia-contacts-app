@@ -3,7 +3,9 @@
 {% block content %}
   <form action="/contacts" method="get">
     <fieldset role="group">
-      <input id="search" type="search" name="q" placeholder="Search Term" value="{{ request.args.get('q') or '' }}" />
+      <input id="search" type="search" name="q" placeholder="Search Term" 
+        value="{{ request.args.get('q') or '' }}" hx-get="/contacts" hx-target="tbody"
+        hx-trigger="input[target.value === ''], keyup delay:200ms changed">
       <input type="submit" value="Search"/>
     </fieldset>
   </form>
@@ -15,31 +17,20 @@
     </tr>
     </thead>
     <tbody>
-    {% for contact in contacts %}
-      <tr>
-        <td>{{ contact.first_name }}</td>
-        <td>{{ contact.last_name }}</td>
-        <td>{{ contact.phone }}</td>
-        <td>{{ contact.email }}</td>
-        <td>
-          <a href="/contacts/{{ contact.id }}/edit">Edit</a><br>
-          <a href="/contacts/{{ contact.id }}">View</a>
-        </td> 
-      </tr>
-    {% endfor %}
-    {% if contacts|length == 10 %} 
-      <tr>
-        <td colspan="5" style="text-align: center">
-          <span hx-target="closest tr" 
-            hx-trigger="revealed"
-            hx-swap="outerHTML" 
-            hx-select="tbody > tr" 
-            hx-get="/contacts?page={{ page + 1 }}">
-            Loading More...
-          </span>
-        </td>
-      </tr>
-    {% endif %}
+      {% include 'rows.html' %}
+      {% if contacts|length == 10 %} 
+        <tr>
+          <td colspan="5" style="text-align: center">
+            <span hx-target="closest tr" 
+              hx-trigger="revealed"
+              hx-swap="outerHTML" 
+              hx-select="tbody > tr" 
+              hx-get="/contacts?page={{ page + 1 }}">
+              Loading More...
+            </span>
+          </td>
+        </tr>
+      {% endif %}
     </tbody>
   </table>
 
