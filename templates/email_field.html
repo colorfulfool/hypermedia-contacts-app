@@ -2,7 +2,7 @@
   <label for="email">Email</label> 
   <input name="email" id="email" type="email"
     hx-get="/contacts/{{ contact.id }}/email" 
-    hx-target="#email-valid-helper" hx-trigger="change, keyup delay:200ms"
+    hx-target="#email-valid-helper" hx-trigger="change, keyup delay:200ms changed"
     aria-invalid="{{ 'true' if contact.errors['email'] else 'nope' }}"
     aria-describedby="email-valid-helper"
     placeholder="Email" value="{{ contact.email or '' }}" > 

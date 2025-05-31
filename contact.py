@@ -87,10 +87,13 @@ class Contact:
             return False
 
     @classmethod
-    def all(cls):
+    def all(cls, page):
         conn = sqlite3.connect(cls.db_path)
         cursor = conn.cursor()
-        cursor.execute('SELECT id, first_name, last_name, phone, email FROM contacts')
+        cursor.execute('''
+            SELECT id, first_name, last_name, phone, email FROM contacts
+            LIMIT ? OFFSET ?
+        ''', (10, 10 * (page - 1)))
         rows = cursor.fetchall()
         conn.close()
         return [cls(*row) for row in rows]
