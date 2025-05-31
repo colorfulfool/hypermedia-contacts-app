@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <form action="/contacts" method="get" class="tool-bar">
+  <form action="/contacts" method="get">
     <fieldset role="group">
       <input id="search" type="search" name="q" placeholder="Search Term" value="{{ request.args.get('q') or '' }}" />
       <input type="submit" value="Search"/>
