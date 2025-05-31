@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <form action="/contacts/{{ contact.id }}/edit" method="post"> 
+    <fieldset>
+      <legend>Contact Values</legend>
+      <p>
+        <label for="email">Email</label> 
+        <input name="email" id="email" type="email"
+          aria-invalid="{{ 'true' if contact.errors['email'] else 'nope' }}"
+          aria-describedby="email-valid-helper"
+          placeholder="Email" value="{{ contact.email or '' }}" > 
+        <small id="email-valid-helper">{{ contact.errors['email'] }}</small>
+      </p>
+      <p>
+        <label for="first_name">First Name</label>
+        <input name="first_name" id="first_name" type="text"
+          placeholder="First Name" value="{{ contact.first_name or '' }}">
+        <small>{{ contact.errors['first'] }}</small>
+      </p>
+      <p>
+        <label for="last_name">Last Name</label>
+        <input name="last_name" id="last_name" type="text"
+          placeholder="Last Name" value="{{ contact.last_name or '' }}">
+        <small>{{ contact.errors['last'] }}</small>
+      </p>
+      <p>
+        <label for="phone">Phone</label>
+        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ contact.phone or '' }}">
+        <small>{{ contact.errors['phone'] }}</small>
+      </p>
+      <button>Save</button>
+    </fieldset>
+  </form>
+
+  <form action="/contacts/{{ contact.id }}/delete" method="post"> 
+    <button>Delete Contact</button>
+  </form>
+
+  <p>
+    <a href="/contacts">Back</a>
+  </p>
+{% endblock %}

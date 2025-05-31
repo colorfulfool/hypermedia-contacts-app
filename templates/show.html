@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <article>
+    <header>
+      <h1>{{contact.first_name}} {{contact.last_name}}</h1>
+    </header>
+
+    <dl>
+      <dt>Phone</dt> 
+      <dd>{{contact.phone}}</dd>
+      <dt>Email</dt> 
+      <dd>{{contact.email}}</dd>
+    </dl>
+
+    <footer>
+      <a href="/contacts/{{contact.id}}/edit">Edit</a>
+      <a href="/contacts">Back</a>
+    </footer>
+  </article>
+{% endblock %}
+
