@@ -4,7 +4,8 @@
   <form action="/contacts" method="get">
     <fieldset role="group">
       <input id="search" type="search" name="q" placeholder="Search Term" 
-        value="{{ request.args.get('q') or '' }}" hx-get="/contacts" hx-target="tbody"
+        value="{{ request.args.get('q') or '' }}" 
+        hx-get="/contacts" hx-target="tbody" hx-push-url="true"
         hx-trigger="input[target.value === ''], keyup delay:200ms changed">
       <input type="submit" value="Search"/>
     </fieldset>
