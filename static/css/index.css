@@ -6,3 +6,7 @@
   border-color: var(--pico-del-color); 
   background-image: var(--pico-icon-invalid);
 }
+
+input.htmx-request {
+  background-image: var(--pico-icon-loading) !important;
+}
