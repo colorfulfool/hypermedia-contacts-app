@@ -1,6 +1,7 @@
 import sqlite3
 import re
-from flask import flash
+from faker import Faker
+import random
 
 class Contact:
     db_path = 'contacts.db'
@@ -20,6 +21,8 @@ class Contact:
             self.errors['email'] = "Email is required"
         elif '@' not in self.email:
             self.errors['email'] = "Email is invalid"
+        elif Contact.find_by_email(self.email) and Contact.find_by_email(self.email).id != self.id:
+            self.errors['email'] = "Email must be unique"
 
         if self.phone and not re.match(r'^\d{10,}$', self.phone):
             self.errors['phone'] = "Phone must be 10+ digits"
@@ -121,6 +124,23 @@ class Contact:
             return cls(*row) if row else None
         except sqlite3.Error:
             return None
+         
+    @classmethod
+    def find_by_email(cls, email):
+        """Find contact by email (case-insensitive)."""
+        try:
+            conn = sqlite3.connect(cls.db_path)
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT id, first_name, last_name, phone, email 
+                FROM contacts 
+                WHERE LOWER(email) = LOWER(?)
+            ''', (email,))
+            row = cursor.fetchone()
+            conn.close()
+            return cls(*row) if row else None
+        except sqlite3.Error:
+            return None
 
     @classmethod
     def create_table(cls):
@@ -136,4 +156,52 @@ class Contact:
             )
         ''')
         conn.commit()
-        conn.close()
+        conn.close()    
+
+    @classmethod
+    def seed(cls, count=100):
+        """Seed the database with contacts up to the specified count."""
+        current_count = cls.count()
+        needed = max(0, count - current_count)
+        
+        if needed == 0:
+            return 0
+            
+        fake = Faker()
+        contacts = []
+        
+        for _ in range(needed):
+            contacts.append((
+                fake.first_name(),
+                fake.last_name(),
+                ''.join(random.choices('0123456789', k=10)),  # 10-digit phone
+                fake.email()
+            ))
+        
+        try:
+            conn = sqlite3.connect(cls.db_path)
+            cursor = conn.cursor()
+            cursor.executemany('''
+                INSERT INTO contacts (first_name, last_name, phone, email)
+                VALUES (?, ?, ?, ?)
+            ''', contacts)
+            conn.commit()
+            return cursor.rowcount
+        except sqlite3.Error:
+            return 0
+        finally:
+            conn.close()
+
+    @classmethod
+    def count(cls):
+        """Return the current number of contacts in the database."""
+        try:
+            conn = sqlite3.connect(cls.db_path)
+            cursor = conn.cursor()
+            cursor.execute('SELECT COUNT(*) FROM contacts')
+            count = cursor.fetchone()[0]
+            return count
+        except sqlite3.Error:
+            return 0
+        finally:
+            conn.close()

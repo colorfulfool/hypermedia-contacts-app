@@ -9,6 +9,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["DEVELOPMENT"] = True
 
 Contact.create_table()
+Contact.seed()
 
 @app.route("/")
 def index():
@@ -65,12 +66,19 @@ def contacts_edit_post(contact_id=0):
     else:
         return render_template("edit.html", contact=c)
 
-@app.route("/contacts/<contact_id>/delete", methods=['POST'])
+@app.route("/contacts/<contact_id>", methods=['DELETE'])
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)
     if contact.delete():
         flash("Deleted Contact!")
-        return redirect("/contacts")
+        return redirect("/contacts", 303)
     else:
         flash("Couldn't delete")
         return render_template("edit.html", contact=contact)
+
+@app.route("/contacts/<contact_id>/email", methods=["GET"])
+def contacts_email_get(contact_id=0):
+    c = Contact.find(contact_id) 
+    c.email = request.args.get('email') 
+    c.validate() 
+    return c.errors.get('email') or "" 

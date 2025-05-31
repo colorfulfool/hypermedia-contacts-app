@@ -1,0 +1,8 @@
+.field small {
+  color: var(--pico-del-color);
+}
+
+.field:has(small:not(:empty)) input {
+  border-color: var(--pico-del-color); 
+  background-image: var(--pico-icon-invalid);
+}
