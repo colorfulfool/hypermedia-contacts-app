@@ -7,7 +7,7 @@ class Contact:
     db_path = 'contacts.db'
 
     def __init__(self, id=None, first_name='', last_name='', phone='', email=''):
-        self.id = id
+        self.id = int(id)
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone
@@ -130,7 +130,6 @@ class Contact:
          
     @classmethod
     def find_by_email(cls, email):
-        """Find contact by email (case-insensitive)."""
         try:
             conn = sqlite3.connect(cls.db_path)
             cursor = conn.cursor()
