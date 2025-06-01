@@ -7,7 +7,7 @@ class Contact:
     db_path = 'contacts.db'
 
     def __init__(self, id=None, first_name='', last_name='', phone='', email=''):
-        self.id = int(id)
+        self.id = int(id) if id else id
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone

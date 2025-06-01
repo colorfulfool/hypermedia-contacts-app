@@ -10,3 +10,13 @@
 input.htmx-request {
   background-image: var(--pico-icon-loading) !important;
 }
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-image: var(--pico-icon-loading);
+  background-size: 1em auto;
+  content: "";
+  vertical-align: -.125em;
+}

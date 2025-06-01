@@ -38,15 +38,22 @@
   <div>
     <span style="float: right">
       {% if page > 1 %}
-        <a href="/contacts?page={{ page - 1 }}">Previous</a> 
+        <a href="/contacts?page={{ page - 1 }}" role="button" class="secondary">
+          Previous
+        </a> 
       {% endif %}
       {% if contacts|length == 10 %}
-        <a href="/contacts?page={{ page + 1 }}">Next</a> 
+        <a href="/contacts?page={{ page + 1 }}" role="button" class="secondary">
+          Next
+        </a> 
       {% endif %}
     </span>
   </div>
 
   <p>
     <a href="/contacts/new" role="button">Add Contact</a>
+    <span hx-get="/contacts/count" hx-trigger="revealed">
+      <span class="spinner"></span>
+    </span>
   </p>
 {% endblock %}
