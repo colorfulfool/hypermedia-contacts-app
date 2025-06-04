@@ -22,7 +22,9 @@
       {% if contacts|length == 10 %} 
         <tr>
           <td colspan="5" style="text-align: center">
-            <span hx-target="closest tr" 
+            <span 
+              aria-busy="true"
+              hx-target="closest tr" 
               hx-trigger="revealed"
               hx-swap="outerHTML" 
               hx-select="tbody > tr" 
