@@ -78,6 +78,8 @@ def contacts_edit_post(contact_id=0):
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)
     if contact.delete():
+        if request.headers.get("HX-Request"):
+            return ''
         flash("Deleted Contact!")
         return redirect("/contacts", 303)
     else:

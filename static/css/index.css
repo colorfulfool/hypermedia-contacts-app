@@ -20,3 +20,8 @@ input.htmx-request {
   content: "";
   vertical-align: -.125em;
 }
+
+tr.htmx-swapping {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
