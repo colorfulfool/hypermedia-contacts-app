@@ -21,11 +21,14 @@ input.htmx-request {
   vertical-align: -.125em;
 }
 
-tr.htmx-swapping {
-  opacity: 0;
-  transition: opacity 500ms ease-out;
+tbody {
+  view-transition-name: table-body;
 }
 
 tr a {
   display: block;
+}
+
+tr:has([type=checkbox]:checked) td {
+  background-color: var(--pico-text-selection-color);
 }

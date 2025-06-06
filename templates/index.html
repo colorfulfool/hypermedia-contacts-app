@@ -25,7 +25,8 @@
     <button
       hx-delete="/contacts"
       hx-confirm="Are you sure you want to delete these contacts?"
-      hx-target="body" hx-vals='{"page": "{{ page }}"}'>
+      hx-target="body" hx-vals='{"page": "{{ page }}"}'
+      hx-swap="transition:true">
       Delete Selected Contacts
     </button>
   </form>
