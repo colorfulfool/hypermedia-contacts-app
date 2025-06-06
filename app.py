@@ -86,6 +86,17 @@ def contacts_delete(contact_id=0):
         flash("Couldn't delete")
         return render_template("edit.html", contact=contact)
 
+@app.route("/contacts", methods=['DELETE'])
+def contacts_delete_many():
+    contact_ids = [int(id) for id in request.form.getlist("selected_contact_ids")]
+    page = int(request.form.get("page"))
+    for contact_id in contact_ids:
+        contact = Contact.find(contact_id)
+        contact.delete()
+    flash("Deleted Contacts!")
+    contacts_set = Contact.all(page)
+    return render_template("index.html", contacts=contacts_set, page=page)
+
 @app.route("/contacts/<contact_id>/email", methods=["GET"])
 def contacts_email_get(contact_id=0):
     c = Contact.find(contact_id) 
